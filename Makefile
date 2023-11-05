@@ -1,4 +1,4 @@
 FLAGS := -Wall -Wextra -ggdb
 
-calculator: src/calculator.cpp
+calculator: calculator.cpp
 	g++ -o $@ $^ -g
