@@ -5,6 +5,8 @@
   We have inserted 3 bugs that the compiler will catch and 3 that it won't.
 */
 
+#include "calculator.h"
+#include "primes.h"
 #include "std_lib_facilities.h"
 
 // define constansok
@@ -16,6 +18,7 @@ constexpr char name = 'a';
 constexpr char root = 'S';
 constexpr char pows = 'P';
 constexpr char fact = 'F';
+constexpr char prime = 'p';
 
 //function declarations
 double expression();
@@ -35,6 +38,12 @@ int factorial(int f){
     }
     return fact;
   }
+}
+
+int nth_prime(int n) {
+  if (n-1 > MAX_PRIME_N_) error("Max N for primes: %s\n", MAX_PRIME_N_);
+  if (n <= 0) error("Argument for prime() must be positive\n");
+  return _primes[n-1];
 }
 
 // define what Token is
@@ -114,6 +123,7 @@ Token Token_stream::get()
       if (s == "sqrt") return Token(root);
       if (s == "pow") return Token(pows);
       if (s == "fact") return Token(fact);
+      if (s == "prime") return Token(prime);
 
       return Token(name, s);
     }
@@ -226,6 +236,13 @@ double primary()
     return factorial(dd);
   }
 	
+  case prime: {
+    t=ts.get();
+    double dd=expression();
+    t=ts.get();
+    return nth_prime(dd);
+  }
+
   default:
     error("primary expected");
   }
@@ -309,7 +326,6 @@ void clean_up_mess()
 const string prompt = "> ";
 const string result = "= ";
 
-
 // define calculator as a function 
 void calculate()
 {
@@ -326,31 +342,3 @@ void calculate()
       clean_up_mess();
     }
 }
-
-int main()
-	
-  try {
-    cout << "This calculator can handle + - * /"<< endl;
-    cout<< "Use ; to print result"<< endl;
-    cout<< "k = 1000 as constans" << endl;
-    cout<< "Use sqrt(number) to calculate square root of a number"<< endl;
-    cout<< "Use pow(num1 ,num2) to calculate num2 power of a num1"<< endl;
-    cout<< "Use fact(number) to calculate factorial of a number"<< endl;
-    cout<< "Use # to define a variable like # x= 1;"<< endl;
-    cout<< "Type in exit to exit"<< endl;
-	
-    calculate();
-    return 0;
-  }
-  catch (exception& e) {
-    cerr << "exception: " << e.what() << endl;
-    char c;
-    while (cin >> c && c != ';');
-    return 1;
-  }
-  catch (...) {
-    cerr << "exception\n";
-    char c;
-    while (cin >> c && c != ';');
-    return 2;
-  }
