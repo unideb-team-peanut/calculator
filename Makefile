@@ -1,4 +1,10 @@
-FLAGS := -Wall -Wextra -O2
+ifdef DEBUG
+	OPTIMIZATION := -ggdb
+else
+	OPTIMIZATION := -O2
+endif
+
+FLAGS := -Wall -Wextra $(OPTIMIZATION)
 
 calculator: obj/main.o obj/calculator.o
 	g++ -o $@ $^ $(FLAGS)
