@@ -4,24 +4,26 @@
 
 #include "calculator.h"
 
-int main(int c, char *argv[]) {
+int main() {
   std::cout << "#ifndef PRIMES_H_\n"
 	    << "#define PRIMES_H_\n"
-	    << "int _primes[" << MAX_PRIME_N_ << "] = {\n";
+	    << "int _primes[" << MAX_PRIME_N << "] = {\n";
   
   std::vector<int> sieve{};
-  for (size_t i = 2; i < MAX_PRIME_N_ * MAX_PRIME_N_; ++i) {
+  for (size_t i = 2; i < MAX_PRIME_N * MAX_PRIME_N; ++i) {
     sieve.push_back(i);
   };
 
-  for (int p = 2; p <= (int)sqrt(MAX_PRIME_N_); ++p) {
+  for (int p = 2; p <= (int)sqrt(MAX_PRIME_N); ++p) {
     for (size_t multiplier = 2; p*multiplier < sieve.size(); ++multiplier) {
-      sieve[p * multiplier] = 0;
+      sieve[p * multiplier - 2] = 0;
     }
   }
 
   bool first = true;
-  for (size_t i, c = 0; i < sieve.size() && c < MAX_PRIME_N_; ++i) {
+  size_t i = 0;
+  size_t c = 0;
+  for (; i < sieve.size() && c < MAX_PRIME_N; ++i) {
     if (sieve[i]) {
       if (!first) {
 	std::cout << ",\n";

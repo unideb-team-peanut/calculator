@@ -104,7 +104,11 @@ int my_combination(int n, int k){
 }
 
 int nth_prime(int n) {
-  if (n-1 > MAX_PRIME_N_) error("Max N for primes: %s\n", MAX_PRIME_N_);
+  if (n >= sizeof(_primes) / sizeof(int)) {
+  char err_str[64];
+  snprintf(err_str, 64, "Max N for primes: %d\n", MAX_PRIME_N - 1);
+  error(err_str);
+  }
   if (n <= 0) error("Argument for prime() must be positive\n");
   return _primes[n-1];
 }
