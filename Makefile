@@ -19,7 +19,11 @@ obj/main.o: main.cpp obj
 	g++ -o $@ $< -c $(FLAGS)
 
 primes.h: calculator.h prime_generator
-	./prime_generator 1000 > primes.h
+	./prime_generator > primes.h
 
 prime_generator: prime_generator.cpp
 	g++ -o $@ $< $(FLAGS)
+
+.PHONY: clean
+clean:
+	rm calculator prime_generator primes.h
