@@ -8,6 +8,8 @@
 #include "calculator.h"
 #include "primes.h"
 #include "std_lib_facilities.h"
+#include <cmath>
+#include <limits.h>
 
 // define constansok
 constexpr char let = '#';
@@ -19,6 +21,12 @@ constexpr char root = 'S';
 constexpr char pows = 'P';
 constexpr char fact = 'F';
 constexpr char prime = 'p';
+constexpr char sinus = 's';
+constexpr char cosinus = 'f';
+constexpr char tangent = 't';
+constexpr char nthroot = 'n';
+constexpr char combination = 'c';
+
 
 //function declarations
 double expression();
@@ -26,6 +34,54 @@ double primary();
 double term();
 double declaration();
 double statement();
+
+
+
+//sin function
+double my_sin(double n){
+	double x, result;
+	x = n * 3.14159 / 180;
+  	result = sin(x);
+  	return result;
+}
+
+
+//cos function
+double my_cos(double n){
+	double x, result;
+	x = n * 3.14159 / 180;
+  	result = cos(x);
+  	return result;
+}
+
+
+//tan function
+double my_tan(double n){
+	double x, result;
+	x = n * 3.14159 / 180;
+  	result = tan(x);
+  	return result;
+}
+
+// nth root function
+double nthRoot(int A, int N)
+{
+    double xPre = rand() % 10;
+    double eps = 1e-3;
+    double delX = INT_MAX;
+    double xK;
+ 
+    //  loop until we reach desired accuracy
+    while (delX > eps)
+    {
+        //  calculating current value from previous value by newton's method
+        xK = ((N - 1.0) * xPre +
+              (double)A/pow(xPre, N-1)) / (double)N;
+        delX = abs(xK - xPre);
+        xPre = xK;
+    }
+    return xK;
+}
 
 // factorial definition extra function
 int factorial(int f){
@@ -38,6 +94,13 @@ int factorial(int f){
     }
     return fact;
   }
+}
+
+// combination function
+int my_combination(int n, int k){
+	int result;
+	result = factorial(n) / (factorial(k) * factorial(n-k));
+	return result;
 }
 
 int nth_prime(int n) {
@@ -124,6 +187,11 @@ Token Token_stream::get()
       if (s == "pow") return Token(pows);
       if (s == "fact") return Token(fact);
       if (s == "prime") return Token(prime);
+      if (s == "sinus") return Token(sinus);
+      if (s == "cosinus") return Token(cosinus);
+      if (s == "tangent") return Token(tangent);
+      if (s == "nthroot") return Token(nthroot);
+      if (s == "combination") return Token(combination);
 
       return Token(name, s);
     }
@@ -216,6 +284,8 @@ double primary()
 	
     }
   }
+  
+  
     // for power of a number
   case pows:{
     t=ts.get();
@@ -236,11 +306,62 @@ double primary()
     return factorial(dd);
   }
 	
+	//for primes
   case prime: {
     t=ts.get();
     double dd=expression();
     t=ts.get();
     return nth_prime(dd);
+  }
+  
+  // for sinus
+  case sinus:{
+    t=ts.get();
+    double dd=expression();
+    t=ts.get();
+    return my_sin(dd);
+  }
+  
+  // for cosinus
+  case cosinus:{
+    t=ts.get();
+    double dd=expression();
+    t=ts.get();
+    return my_cos(dd);
+  }
+  
+  // for tangent
+  case tangent:{
+    t=ts.get();
+    double dd=expression();
+    t=ts.get();
+    return my_tan(dd);
+  }
+  
+  // for nth root
+  case nthroot:{
+    t=ts.get();
+    if (t.kind != '(') error("'(' expected");
+    double d=expression();
+    t=ts.get();
+    //if (t.kind!=',') error("',' expected");
+    double i=expression();
+    t=ts.get();
+    if (t.kind != ')') error("')' expected");
+    return nthRoot(d,i);
+  }
+  
+  // for combination
+  case combination:{
+    t=ts.get();
+    if (t.kind != '(') error("'(' expected");
+    double d=expression();
+    t=ts.get();
+    //if (t.kind!=',') error("',' expected");
+    double i=expression();
+    t=ts.get();
+    if (t.kind != ')') error("')' expected");
+    return my_combination(d,i);
   }
 
   default:
