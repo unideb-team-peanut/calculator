@@ -103,6 +103,20 @@ int my_combination(int n, int k){
 	return result;
 }
 
+// variation
+int my_variation(int n, int k){
+	int result;
+	result = factorial(n) / (factorial(n-k));
+	return result;
+}
+
+// permutation
+int my_permutation(int n, int k){
+	int result;
+	result = factorial(n);
+	return result;
+}
+
 int nth_prime(int n) {
   if (n >= sizeof(_primes) / sizeof(int)) {
   char err_str[64];
