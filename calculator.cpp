@@ -104,18 +104,18 @@ int my_combination(int n, int k){
 }
 
 // variation
-int my_variation(int n, int k){
-	int result;
-	result = factorial(n) / (factorial(n-k));
-	return result;
-}
+//int my_variation(int n, int k){
+//	int result;
+//	result = factorial(n) / (factorial(n-k));
+//	return result;
+//}
 
 // permutation
-int my_permutation(int n, int k){
-	int result;
-	result = factorial(n);
-	return result;
-}
+//int my_permutation(int n, int k){
+//	int result;
+//	result = factorial(n);
+//	return result;
+//}
 
 int nth_prime(int n) {
   if (n >= sizeof(_primes) / sizeof(int)) {
